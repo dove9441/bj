@@ -6,12 +6,13 @@ using namespace std;
 
 // 선택 정렬(기본 오름차순)
 void Selection_Sort(int* a,int n){
-    int min;
+    int minIdx;
     for(int i=0; i<n-1; i++){
-        min = a[i];
+        minIdx = i;
         for(int j=i+1; j<n; j++){
-            if(min > a[j]) swap(a[i], a[j]);
+            if(a[minIdx] > a[j]) minIdx = j;
         }
+        swap(a[i], a[minIdx]);
     }
 }
 
@@ -21,9 +22,10 @@ int main(void){
     cin.tie(0);
     cout.tie(0);
 
-    // 자리수 분리를 위해 string으로 받아옴
-    string str;
-    cin >> str;
+    // 자리수 분리를 위해 string으로 변환, 001234같은 입력이 가능하므로 int로 받아온 후 string으로 변환
+    int number;
+    cin >> number;
+    string str = to_string(number);
 
     // 정렬을 위해 string으로 받은 값을 int배열로 바꾸어줘야 함, 아스키코드 이용
     int arr[str.length()];
