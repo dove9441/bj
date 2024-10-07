@@ -1,52 +1,42 @@
 #include <iostream>
+#include <algorithm>
 #include <string>
-#include <random>
+
 using namespace std;
 
-void quick_sort(long int* arr, long int start, long int end){
-    if(start>=end){
-        return;
-    }
-
-    int pivot = start;
-    int i = start + 1;
-    int j = end;
-
-    while(i<=j){
-        while(arr[pivot]>=arr[i] && i<=end){
-            i++;
+// 선택 정렬(기본 오름차순)
+void Selection_Sort(int* a,int n){
+    int min;
+    for(int i=0; i<n-1; i++){
+        min = a[i];
+        for(int j=i+1; j<n; j++){
+            if(min > a[j]) swap(a[i], a[j]);
         }
-        while(arr[pivot]<=arr[j] && j>start){ //j>=start이라면 j==0일 떄 j--가 실행되어 j가 -1이 되고 없는 인덱스에 접근하여 오류가 남
-            j--;
-        }
-        if(i>j){
-            int t = arr[pivot];
-            arr[pivot] = arr[j];
-            arr[j] = t;
-        }else{
-            int t = arr[i];
-            arr[i] = arr[j];
-            arr[j] = t;
-        }
-        // 엇갈리면 모두 pivot과 j를 바꾼 후 배열을 분할하여 퀵 정렬을 재귀적으로 실행한다
-        quick_sort(arr, start,j-1);
-        quick_sort(arr, j+1, end);
     }
 }
 
 int main(void){
-    long int temp;
-    string str;
-    cin >> temp;
-    str = to_string(temp); // 00481 입력시 맨 앞에 0의미없는것 삭제
-    long int* n= new long int[str.length()]; //12345 str.length : 5
-    for(int i=0;i<str.length();i++){
-        n[i] = (int)str[i] - '0';
-    }
-    quick_sort(n, 0, str.length()-1);
+    // 입출력 속도 향상을 위한 코드
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
 
-    for(int i=str.length()-1;i>=0;i--){
-        cout << n[i];
+    // 자리수 분리를 위해 string으로 받아옴
+    string str;
+    cin >> str;
+
+    // 정렬을 위해 string으로 받은 값을 int배열로 바꾸어줘야 함, 아스키코드 이용
+    int arr[str.length()];
+    for(int i=0; i<str.length(); i++){
+        arr[i] = str[i] - '0';
     }
-    delete[] n;
+    Selection_Sort(arr, str.length());
+    
+    // 출력
+    for(int i=str.length()-1; i>=0; i--){
+        cout << arr[i];
+    }
+    cout << '\n';
+
+
 }
